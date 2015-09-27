@@ -1,4 +1,4 @@
 #meread
-#Make your README's suck less
-###image here
-###MIT
+Let's make readme files that suck less
+###url here
+###mit

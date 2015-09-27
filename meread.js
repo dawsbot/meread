@@ -12,6 +12,7 @@ function printBanner() {
   console.log(chalk.white('-----------------------------'));
   console.log(chalk.magenta('     Welcome to meread!'));
   console.log(chalk.white('-----------------------------'));
+  console.log(chalk.white('Let\'s build a clean README\n'));
 };
 
 function addEntry(style, body) {
@@ -21,17 +22,22 @@ function addEntry(style, body) {
 function takeInput(arr) {
   prompt.get(arr, function (err, res) {
     for (var key in res) {
-      console.log('key: ' + key);
-      console.log('res: ' + res[key]);
-
-      addEntry(config[key].style, res[key]);
+      // console.log('key: ' + key);
+      // console.log('res: ' + res[key]);
+      if (res[key] === '' || res[key] === 'no') {
+          console.log(chalk.gray('Created no entry for ' + key));
+      } else {
+        addEntry(config[key].style, res[key]);
+      }
     }
 
     fs.writeFile('README.md', outputText, function(error) {
       if (error) {
-        throw error;
+        outs.error('Error writing to README.md');
+        process.exit(1);
       }
-      console.log('success');
+
+      outs.success('Clean and organized README hot and fresh!');
     });
   });
 }
