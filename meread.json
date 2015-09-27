@@ -1,0 +1,18 @@
+{
+  "Project Title": {
+    "displayKey": false,
+    "style": "#"
+  },
+  "Description": {
+    "displayKey": false,
+    "style": "#"
+  },
+  "Demo": {
+    "displayKey": true,
+    "style": "###"
+  },
+  "License": {
+    "displayKey": true,
+    "style": "###"
+  }
+}
