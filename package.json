@@ -1,0 +1,35 @@
+{
+  "name": "meread",
+  "version": "0.0.0",
+  "description": "Readme templating engine",
+  "preferGlobal": true,
+  "bin": {
+    "meread": "meread.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dawsonbotsford/meread.git"
+  },
+  "keywords": [
+    "git",
+    "github",
+    "readme",
+    "design",
+    "devtools",
+    "clt",
+    "cli"
+  ],
+  "author": "Dawson Botsford <dawsonbotsford@gmail.com> (http://dawsonbotsford.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dawsonbotsford/meread/issues"
+  },
+  "homepage": "https://github.com/dawsonbotsford/meread#readme",
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "prompt": "^0.2.14"
+  }
+}
