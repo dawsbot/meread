@@ -7,7 +7,15 @@
     "displayKey": false,
     "style": ""
   },
-  "Demo": {
+  "Demo Image URL": {
+    "displayKey": false,
+    "style": ""
+  },
+  "Installation": {
+    "displayKey": true,
+    "style": "###"
+  },
+  "Usage": {
     "displayKey": true,
     "style": "###"
   },
