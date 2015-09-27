@@ -9,29 +9,42 @@ var fs = require('fs');
 var outputText = '';
 
 function printBanner() {
+  console.log(chalk.white('\n-----------------------------'));
+  console.log(chalk.blue('     Welcome to meread!'));
   console.log(chalk.white('-----------------------------'));
-  console.log(chalk.magenta('     Welcome to meread!'));
-  console.log(chalk.white('-----------------------------'));
+  console.log(chalk.white('If you ever dislike a component, leave the field blank'));
   console.log(chalk.white('Let\'s build a clean README\n'));
 };
 
-function addEntry(style, body) {
-      outputText += style + body + '\n';
+function addEntry(style, body, key) {
+  // if (style !== '') {
+  //   console.log('style: ' + String(style));
+  //   style += ' ';
+  // }
+  if (key !== undefined) {
+    // console.log('key is undef');
+    outputText += style + ' ' + key + '\n ' + body + '\n\n<br>\n';
+  } else {
+    // console.log('key is NOT undef');
+    outputText += style + body + '\n\n<br>\n';
+  }
 };
 
 function takeInput(arr) {
   prompt.get(arr, function (err, res) {
     for (var key in res) {
-      // console.log('key: ' + key);
-      // console.log('res: ' + res[key]);
       if (res[key] === '' || res[key] === 'no') {
           console.log(chalk.gray('Created no entry for ' + key));
       } else {
-        addEntry(config[key].style, res[key]);
+        if (config[key].displayKey === true) {
+          addEntry(config[key].style, res[key], key);
+        } else {
+          addEntry(config[key].style, res[key]);
+        }
       }
     }
 
-    fs.writeFile('README.md', outputText, function(error) {
+    fs.writeFile('READMEdup.md', outputText, function(error) {
       if (error) {
         outs.error('Error writing to README.md');
         process.exit(1);
