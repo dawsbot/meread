@@ -44,13 +44,16 @@ function takeInput(arr) {
       }
     }
 
-    fs.writeFile('READMEdup.md', outputText, function(error) {
+    outputText += 'This readme was templated with [meread](https://github.com/dawsonbotsford/meread)';
+
+    var readmeLocation = 'README.md';
+
+    fs.writeFile(readmeLocation, outputText, function(error) {
       if (error) {
         outs.error('Error writing to README.md');
         process.exit(1);
       }
-
-      outs.success('Clean and organized README hot and fresh!');
+      outs.success('meread build your readme at ' + readmeLocation + '!');
     });
   });
 }
