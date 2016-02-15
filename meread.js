@@ -17,15 +17,9 @@ function printBanner() {
 };
 
 function addEntry(style, body, key) {
-  // if (style !== '') {
-  //   console.log('style: ' + String(style));
-  //   style += ' ';
-  // }
   if (key !== undefined) {
-    // console.log('key is undef');
     outputText += style + ' ' + key + '\n ' + body + '\n\n<br>\n';
   } else {
-    // console.log('key is NOT undef');
     outputText += style + body + '\n\n<br>\n';
   }
 };
