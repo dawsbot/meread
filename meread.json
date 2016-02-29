@@ -1,42 +1,37 @@
 {
   "Project Title": {
     "displayKey": false,
-    "style": "#"
-  },
-  "Version Shield": {
-    "displayKey": false,
-    "style": ""
-  },
-  "License Shield": {
-    "displayKey": false,
-    "style": ""
-  },
-  "Downloads Shield": {
-    "displayKey": false,
-    "style": ""
-  },
-  "Travis-ci shield": {
-    "displayKey": false,
-    "style": ""
+    "style": "#",
+    "comments": ""
   },
   "Description": {
     "displayKey": false,
-    "style": ""
+    "style": "",
+    "comments": ""
   },
   "Demo Image URL": {
     "displayKey": false,
-    "style": ""
+    "style": "",
+    "comments": ""
   },
   "Installation": {
     "displayKey": true,
-    "style": "###"
+    "style": "###",
+    "comments": ""
   },
   "Usage": {
     "displayKey": true,
-    "style": "###"
+    "style": "###",
+    "comments": "*Add your usage here*"
+  },
+  "API":{
+    "displayKey": true,
+    "style": "###",
+    "comments": "*Add your API here*"
   },
   "License": {
     "displayKey": true,
-    "style": "###"
+    "style": "###",
+    "comments": ""
   }
 }
