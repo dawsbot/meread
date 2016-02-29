@@ -49,7 +49,7 @@ function checkForReadme() {
   stats = fs.lstatSync(readmeLocation);
   if (stats.isFile()){
     console.log(chalk.red('\nREADME.md already exists!'));
-    console.log(chalk.red('Enter new file name (Blank overwrites README.md):'));
+    console.log(chalk.red('Enter new file name or blank to overwrite README.md:'));
     prompt.get(['Filename'], function(err, res) {
       if (res.Filename !== ''){
         console.log(res.Filename);
