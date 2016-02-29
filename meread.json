@@ -3,6 +3,22 @@
     "displayKey": false,
     "style": "#"
   },
+  "Version Shield": {
+    "displayKey": false,
+    "style": ""
+  },
+  "License Shield": {
+    "displayKey": false,
+    "style": ""
+  },
+  "Downloads Shield": {
+    "displayKey": false,
+    "style": ""
+  },
+  "Travis-ci shield": {
+    "displayKey": false,
+    "style": ""
+  },
   "Description": {
     "displayKey": false,
     "style": ""
