@@ -7,6 +7,7 @@ var prompt = require('prompt');
 var fs = require('fs');
 
 var outputText = '';
+var readmeLocation = 'README.md';
 
 function printBanner() {
   console.log(chalk.white('\n-----------------------------'));
@@ -40,17 +41,35 @@ function takeInput(arr) {
 
     outputText += 'This readme was templated with [meread](https://github.com/dawsonbotsford/meread)';
 
-    var readmeLocation = 'README.md';
-
-    fs.writeFile(readmeLocation, outputText, function(error) {
-      if (error) {
-        outs.error('Error writing to README.md');
-        process.exit(1);
-      }
-      outs.success('meread build your readme at ' + readmeLocation + '!');
-    });
+    checkForReadme();
   });
-}
+};
+
+function checkForReadme() {
+  stats = fs.lstatSync(readmeLocation);
+  if (stats.isFile()){
+    console.log(chalk.red('\nREADME.md already exists!'));
+    console.log(chalk.red('Enter new file name (Blank overwrites README.md):'));
+    prompt.get(['Filename'], function(err, res) {
+      if (res.Filename !== ''){
+        console.log(res.Filename);
+        readmeLocation = res.Filename;
+      }
+
+      writeToFile();
+    });
+  }
+};
+
+function writeToFile(){
+  fs.writeFile(readmeLocation, outputText, function(error) {
+    if (error) {
+      outs.error('Error writing to README.md');
+      process.exit(1);
+    }
+    outs.success('meread built your readme at ' + readmeLocation + '!');
+  });
+};
 
 printBanner();
 
