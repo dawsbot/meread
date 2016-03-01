@@ -1,6 +1,6 @@
 {
   "name": "meread",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Readme templating engine",
   "preferGlobal": true,
   "bin": {
