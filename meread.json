@@ -1,23 +1,18 @@
 {
-  "Project Title": {
-    "displayKey": false,
-    "style": "#",
-    "comments": ""
-  },
   "Description": {
     "displayKey": false,
     "style": "",
-    "comments": ""
+    "comments": "*Add your description here*"
   },
   "Demo Image URL": {
     "displayKey": false,
     "style": "",
-    "comments": ""
+    "comments": "*Add your image url here*"
   },
   "Installation": {
     "displayKey": true,
     "style": "###",
-    "comments": ""
+    "comments": "*Add your installation here*"
   },
   "Usage": {
     "displayKey": true,
@@ -32,6 +27,6 @@
   "License": {
     "displayKey": true,
     "style": "###",
-    "comments": ""
+    "comments": "*Add your license here*"
   }
 }

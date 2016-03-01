@@ -7,9 +7,10 @@ var prompt = require('prompt');
 var fs = require('fs');
 
 var titleString = '';
-var commentString = '';
+var bodyString = '';
+var shieldsArray = [];
 var sections = [];
-var readmeLocation = 'README.md';
+var readmeLocation = 'testREADME.md';
 
 function printBanner() {
   console.log(chalk.white('\n-----------------------------'));
@@ -17,14 +18,42 @@ function printBanner() {
   console.log(chalk.white('-----------------------------'));
   console.log(chalk.white('If you ever dislike a component, leave the field blank'));
   console.log(chalk.green('Usage:'));
-  console.log(chalk.green('  -l: add title but leave content blank'));
+  console.log(chalk.green('  text: default to meread.json'))
+  console.log(chalk.green('  -t: add title but leave content blank (overrides displayKey)'));
+  console.log(chalk.green('  -l: add title and leave reminder (overrides displayKey)'))
   console.log(chalk.green('  -f <path/to/file>: Use text in file'));
-  console.log(chalk.green('  -o <style> <text>: Override style'));
   console.log(chalk.white('Let\'s build a clean README\n'));
 };
 
-function addEntry(title, body, comment) {
-  sections.push(title + body + comment);
+function addEntry(title, body) {
+  sections.push(title + body);
+};
+
+function projectTitle(arr) {
+  prompt.get(['Title'], function (err, res) {
+    if (res.Title == '') {
+      addEntry('## Still Contemplating That','','');
+    } else {
+      addEntry(res.Title,'');
+    }
+    shields(arr);
+  });
+};
+
+function shields(arr) {
+  prompt.get(['Shield'], function (err, res) {
+    for (var key in res){
+      if (res[key] !== '') {
+        shieldsArray.push(res[key]);
+        shields(arr);
+      } else {
+        if (shieldsArray.length > 0){
+          addEntry(shieldsArray.join(' '),'');
+        }
+        takeInput(arr);
+      }
+    }
+  });
 };
 
 function takeInput(arr) {
@@ -34,23 +63,48 @@ function takeInput(arr) {
           console.log(chalk.gray('Created no entry for ' + key));
       } else {
         titleString = config[key].style;
-        commentString = '';
+        bodyString = '';
 
-        if (config[key].displayKey === true) {
-          titleString = config[key].style + ' ' + key + '\n';
+        if (res[key].toLowerCase() === '-t' || res[key].toLowerCase() === '-l' || config[key].displayKey === true) {
+            titleString = config[key].style + ' ' + key + '\n';
+          }
+
+        if (res[key].toLowerCase() === '-l'){
+          bodyString = config[key].comments;
+        } else {
+          bodyString = res[key];
         }
 
-        if (res[key].toLowerCase() !== '-l'){
-          commentString = res[key];
+        if (res[key].toLowerCase().startsWith('-f')){
+          var f = res[key].slice(3, res[key].length);
+        } else {
+          var f = 'undefined'
         }
-
-        addEntry(titleString, commentString, config[key].comments);
+        getFile(f, function (results){
+          if (results !== 'undefined'){
+            addEntry(titleString, results);
+          } else {
+            addEntry(titleString, bodyString);
+          }
+        });
       }
     }
 
-    sections.push('Template: **[meread](https://github.com/dawsonbotsford/meread)**');
     checkForReadme();
   });
+};
+
+function getFile(file, callback){
+  if (file === 'undefined'){
+    callback('undefined')
+  } else {
+    fs.readFile(file, function read(err, data) {
+      if (err) {
+        throw err;
+      }
+      callback(data);
+    });
+  }
 };
 
 function checkForReadme() {
@@ -63,7 +117,7 @@ function checkForReadme() {
         console.log(res.Filename);
         readmeLocation = res.Filename;
       }
-
+      sections.push('Template: **[meread](https://github.com/dawsonbotsford/meread)**');
       writeToFile();
     });
   }
@@ -87,4 +141,4 @@ for (var key in config) {
   myArr.push(key);
 }
 
-takeInput(myArr);
+projectTitle(myArr);
