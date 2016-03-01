@@ -1,7 +1,7 @@
 {
   "Description": {
     "displayKey": false,
-    "style": "",
+    "style": "> ",
     "comments": "*Add your description here*"
   },
   "Demo Image URL": {
@@ -11,22 +11,22 @@
   },
   "Installation": {
     "displayKey": true,
-    "style": "###",
+    "style": "##",
     "comments": "*Add your installation here*"
   },
   "Usage": {
     "displayKey": true,
-    "style": "###",
+    "style": "##",
     "comments": "*Add your usage here*"
   },
   "API":{
     "displayKey": true,
-    "style": "###",
+    "style": "##",
     "comments": "*Add your API here*"
   },
   "License": {
     "displayKey": true,
-    "style": "###",
+    "style": "##",
     "comments": "*Add your license here*"
   }
 }
