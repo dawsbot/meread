@@ -66,13 +66,13 @@ function takeInput(arr) {
         var lower = res[key].toLowerCase();
 
         if (lower === '-t' || lower === '-l' || config[key].displayKey === true) {
-            titleString = config[key].style + ' ' + key + '\n';
+            titleString = config[key].style + ' ' + key + '\n'; //style + prompt
           }
 
         if (lower === '-l'){
           bodyString = config[key].comments;
         } else if (lower !== '-t'){
-          bodyString = res[key];
+          bodyString = res[key];  //prompt answer
         }
 
         if (lower.slice(0,2) === '-f') {
@@ -91,25 +91,31 @@ function takeInput(arr) {
 function getFile(file, key, title){
   fs.readFile(file, function read(err, data) {
     if (err) {
-      throw err;
+      throw err;  //possibly don't error but add notice in README to copy and paste data in
     }
     updateEntry(key, title, data);
   });
 };
 
 function checkForReadme() {
-  stats = fs.lstatSync(readmeLocation);
-  if (stats.isFile()){
-    console.log(chalk.red('\nREADME.md already exists!'));
-    console.log(chalk.red('Enter new file name (Leave field blank to overwrite README.md):'));
-    prompt.get(['Filename'], function(err, res) {
-      if (res.Filename !== '') {
-        console.log(res.Filename);
-        readmeLocation = res.Filename;
-      }
+  fs.stat(readmeLocation, function(err, stat) {
+    if (err == null) {
+      console.log(chalk.red('\nREADME.md already exists!'));
+      console.log(chalk.red('Enter new file name (Leave field blank to overwrite README.md):'));
+      prompt.get(['Filename'], function(err, res) {
+        if (res.Filename !== '') {
+          console.log(res.Filename);
+          readmeLocation = res.Filename;
+        }
+        buildReadme();
+      });
+    } else if(err.code == 'ENOENT') {
+      fs.writeFile(readmeLocation, '');
       buildReadme();
-    });
-  }
+    } else {
+      console.log('Some other error: ', err.code);
+    }
+  });
 };
 
 function buildReadme(){
@@ -122,7 +128,7 @@ function buildReadme(){
   writeToFile();
 }
 function writeToFile(){
-  fs.writeFile(readmeLocation, sections.join('\n\n<br>\n'), function(error) {
+  fs.writeFile(readmeLocation, sections.join('\n\n<br>\n'), { flags: 'w' }, function(error) {
     if (error) {
       outs.error('Error writing to README.md');
       process.exit(1);
