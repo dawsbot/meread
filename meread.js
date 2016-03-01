@@ -128,7 +128,7 @@ function buildReadme(){
   writeToFile();
 }
 function writeToFile(){
-  fs.writeFile(readmeLocation, sections.join('\n\n<br>\n'), { flags: 'w' }, function(error) {
+  fs.writeFile(readmeLocation, sections.join('\n<br>\n\n'), { flags: 'w' }, function(error) {
     if (error) {
       outs.error('Error writing to README.md');
       process.exit(1);
