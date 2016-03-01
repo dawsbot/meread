@@ -6,11 +6,10 @@ var config = require('./meread.json');
 var prompt = require('prompt');
 var fs = require('fs');
 
-var titleString = '';
-var bodyString = '';
+var order = {'Title': '', 'Shields': '', 'Description': '', 'Demo Image URL': '', 'Installation': '', 'Usage': '', 'API': '', 'License': ''};
 var shieldsArray = [];
 var sections = [];
-var readmeLocation = 'testREADME.md';
+var readmeLocation = 'README.md';
 
 function printBanner() {
   console.log(chalk.white('\n-----------------------------'));
@@ -25,16 +24,16 @@ function printBanner() {
   console.log(chalk.white('Let\'s build a clean README\n'));
 };
 
-function addEntry(title, body) {
-  sections.push(title + body);
+function updateEntry(key, title, body) {
+  order[key] = title + body;
 };
 
 function projectTitle(arr) {
   prompt.get(['Title'], function (err, res) {
     if (res.Title == '') {
-      addEntry('## Still Contemplating That','','');
+      updateEntry('Title', '## Still Contemplating That', '');
     } else {
-      addEntry(res.Title,'');
+      updateEntry('Title', '## ' +res.Title, '');
     }
     shields(arr);
   });
@@ -48,7 +47,7 @@ function shields(arr) {
         shields(arr);
       } else {
         if (shieldsArray.length > 0){
-          addEntry(shieldsArray.join(' '),'');
+          updateEntry('Shields', shieldsArray.join(' '),'');
         }
         takeInput(arr);
       }
@@ -62,31 +61,26 @@ function takeInput(arr) {
       if (res[key] === '' || res[key] === 'no') {
           console.log(chalk.gray('Created no entry for ' + key));
       } else {
-        titleString = config[key].style;
-        bodyString = '';
+        var titleString = config[key].style;
+        var bodyString = '';
+        var lower = res[key].toLowerCase();
 
-        if (res[key].toLowerCase() === '-t' || res[key].toLowerCase() === '-l' || config[key].displayKey === true) {
+        if (lower === '-t' || lower === '-l' || config[key].displayKey === true) {
             titleString = config[key].style + ' ' + key + '\n';
           }
 
-        if (res[key].toLowerCase() === '-l'){
+        if (lower === '-l'){
           bodyString = config[key].comments;
-        } else {
+        } else if (lower !== '-t'){
           bodyString = res[key];
         }
 
-        if (res[key].toLowerCase().startsWith('-f')){
+        if (lower.slice(0,2) === '-f') {
           var f = res[key].slice(3, res[key].length);
+          getFile(f, key, titleString);
         } else {
-          var f = 'undefined'
+          updateEntry(key, titleString, bodyString);
         }
-        getFile(f, function (results){
-          if (results !== 'undefined'){
-            addEntry(titleString, results);
-          } else {
-            addEntry(titleString, bodyString);
-          }
-        });
       }
     }
 
@@ -94,17 +88,13 @@ function takeInput(arr) {
   });
 };
 
-function getFile(file, callback){
-  if (file === 'undefined'){
-    callback('undefined')
-  } else {
-    fs.readFile(file, function read(err, data) {
-      if (err) {
-        throw err;
-      }
-      callback(data);
-    });
-  }
+function getFile(file, key, title){
+  fs.readFile(file, function read(err, data) {
+    if (err) {
+      throw err;
+    }
+    updateEntry(key, title, data);
+  });
 };
 
 function checkForReadme() {
@@ -113,16 +103,24 @@ function checkForReadme() {
     console.log(chalk.red('\nREADME.md already exists!'));
     console.log(chalk.red('Enter new file name (Leave field blank to overwrite README.md):'));
     prompt.get(['Filename'], function(err, res) {
-      if (res.Filename !== ''){
+      if (res.Filename !== '') {
         console.log(res.Filename);
         readmeLocation = res.Filename;
       }
-      sections.push('Template: **[meread](https://github.com/dawsonbotsford/meread)**');
-      writeToFile();
+      buildReadme();
     });
   }
 };
 
+function buildReadme(){
+  for (var key in order){
+    if (order[key] !== ''){
+      sections.push(order[key])
+    }
+  }
+  sections.push('Template: **[meread](https://github.com/dawsonbotsford/meread)**');
+  writeToFile();
+}
 function writeToFile(){
   fs.writeFile(readmeLocation, sections.join('\n\n<br>\n'), function(error) {
     if (error) {
